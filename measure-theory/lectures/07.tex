@@ -1,0 +1,469 @@
+% 2022.10.14 Lecture 7
+\documentclass[../measure-theory.tex]{subfiles}
+\begin{document}
+
+\section{Гильбертовы пространства. Теорема Рисса.}
+
+Это небольшой сюжет из функционального анализа, слабо связанный с теорией меры.
+
+\begin{df}
+ \label{definition:hilbert_space}
+ Пусть $H$ --- линейное пространство над $\CC$ ($\R$), и задано отображение $(\cdot, \cdot) \colon\, H \times H \to \CC $ ($\R$) со следующими свойствами:
+ \begin{enumerate}
+  \item $(h, h) \geqslant 0$ для всех $h \in H$, $(h, h) = 0 \iff h = 0$.
+  \item $(h, g) = \overline{(g,h)}$ для любых $g, h \in H$ (черта --- комплексное сопряжение)
+  \item $(\alpha_1 h_1 + \alpha_2 h_2, g) = \alpha_1 (h_1, g) + \alpha_2 (h_2, g)$ для любых $\alpha_1, \alpha_2 \in \CC$, $h_{1}, h_2 \in H$.
+ \end{enumerate} Тогда $\left\| h \right\| = \sqrt{(h, h)}$ --- это норма на $H$. Если $H$ --- полное линейное нормированное пространство относительно этой нормы, то $H$ называется \textit{гильбертовом пространством}. Это отображение $(\cdot, \cdot)$ называется \textit{скалярным произведением}.
+\end{df}
+\begin{remrk*}
+ Пространство $H$, удовлетворяющее всем условиям определения \ref{definition:hilbert_space}, кроме полноты, называется \textit{предгильбертовом пространством}. В первом семестре такие пространства назывались \textit{пространствами со скалярным произведением}.
+\end{remrk*}
+\begin{remrk}
+ Формула $\left\| h \right\| = \sqrt{(h,h)}$ действительно определяет норму.
+\end{remrk}
+\begin{proof}\
+ \begin{enumerate}
+  \item $\left\| h \right\| \geqslant 0$ --- понятно; $\left\| h \right\| = 0 \iff (h, h) = 0 \iff h = 0$.
+  \item Для любого $\alpha \in \CC$ и $h \in H$ верно \begin{align*}
+    \left\| \alpha h \right\| = \sqrt{(\alpha h, \alpha h)} = \sqrt{\alpha (h, \alpha h)} = \sqrt{\alpha \overline{({\alpha h, h})}} = \sqrt{ \left| \alpha \right|^{2} (h, h) } = \left| \alpha \right| \left\| h \right\|
+   .\end{align*} 
+  \item Для неравенства треугольника сначала докажем неравенство КБШ.
+   \begin{lm}[неравенство Коши-Буняковского-Шварца]
+    Для любых векторов $h, g \in H$:
+    \begin{align}
+     \label{equation:lemma:cauchy_bunyakovsky_schwarz_inequality}
+     \left| (h,g) \right| \leqslant \left\| h \right\| \left\| g \right\|.
+    \end{align}
+   \end{lm}
+   \begin{proof}[\normalfont\textsc{Доказательство}]
+    Для любого $t \in \R$ верно
+    \begin{align*}
+     \left\| h+tg \right\|^{2} \geqslant 0
+    .\end{align*} Раскроем левую часть:
+    \begin{align*}
+     \left\| h+tg \right\|^{2}&=(h+tg,h+tg) = (h, h + tg) + t(g, h+tg) =\\
+     &= \overline{(h+tg, h)} + t \overline{(h+tg,g)} = \overline{(h,h) + t(g,h)} + t \left( \overline{(h,g) + t(g,g)} \right) = \\
+     &= (h,h) + t(h,g) + t \left( (g,h) + t(g,g) \right) = \\
+     &= \left\| h \right\|^{2} + t \left( (h,g) + \overline{(h,g)} \right) + \left\| g \right\|^{2} t^{2} = \\
+     &= \left\| h \right\|^{2} + 2\Real (h,g) \cdot t + \left\| g \right\|^{2}t^{2}
+    .\end{align*} Получается, квадратный трехчлен с вещественными коэффициентами неотрицателен при любом $t \in \R$. Значит, его дискриминант неположителен:
+    \begin{align*}
+     D = 4 (\Real (h,g))^{2} - 4 \left\| h \right\|^{2} \left\| g \right\|^{2} \leqslant 0
+    .\end{align*} Преобразовывая, получаем неравенство
+    \begin{align*}
+     \left| \Real (h,g) \right| \leqslant \left\| h \right\| \left\| g \right\|
+    ,\end{align*} которое мы доказали для любых $h,g \in H$. Подставим теперь вместо $h$ вектор $\alpha h$, где $\alpha \in \CC$ такое, что $\left| \alpha \right|=1$ и $\alpha \cdot (h, g) = \left| (h,g) \right|$:
+    \begin{align*}
+     &\left| \Real (\alpha h, g) \right| \leqslant \left\| \alpha h \right\| \left\| g \right\| \\
+     \implies & \left| \Real \left( \alpha \cdot (h,g) \right) \right| \leqslant \left| \alpha \right| \left\| h \right\| \left\| g \right\| \\
+     \implies &\left| (h,g) \right| \leqslant \left\| h \right\| \left\| g \right\|.
+    \end{align*} 
+   \end{proof}
+   Вернёмся к неравенству треугольника
+   \begin{align*}
+    &\left\| h+g \right\|\leqslant \left\| h \right\| + \left\| g \right\| \\
+    \iff & \left\| h+g \right\|^{2} \leqslant \left( \left\| h \right\| + \left\| g \right\| \right)^{2} \\
+    \iff &\left\| h \right\|^{2} + 2 \Real (h,g) + \left\| g \right\|^{2} \leqslant \left\| h \right\|^{2} + 2 \left\| h \right\| \left\| g \right\| + \left\| g \right\|^{2} \\
+    \iff &\Real (h,g) \leqslant \left\| h \right\| \left\| g \right\|
+   \end{align*} --- следует из неравенства КБШ \eqref{equation:lemma:cauchy_bunyakovsky_schwarz_inequality}.
+ \end{enumerate}
+\end{proof}
+\begin{remrk*}
+ В доказательстве неравенства КБШ мы получили полезное равенство
+ \begin{align}
+  \label{equation:hilbert_space:norm_squared_of_sum}
+  \left\| h + tg \right\|^{2} = \left\| h \right\|^{2} + 2 \Real(h, g) \cdot t + \left\| g \right\|^{2} t^{2}
+ \end{align} для $h,g \in H$ и $t \in \R$.
+\end{remrk*}
+
+Приведём примеры Гильбертовых пространств.
+\begin{exmpl*}
+ $\CC^{n}$ --- гильбертово пространство со скалярным произведением \begin{align*}
+  ((x_1, \ldots, x_n), (y_1, \ldots, y_n))_{\CC_n} = \sum_{k=1}^{n} a_k \overline{b_k}
+ .\end{align*} Евклидово пространство $\R^{n}$ также можно считать гильбертовом пространством, но над полем $\R$.
+
+ Оказывается, оба этих пространства являются частным случаем следующего примера.
+\end{exmpl*}
+
+\begin{exmpl}
+ Пусть $(X, \A, \mu)$ --- пространство с мерой. Тогда пространство Лебега $ L^{2}(X, \mu) $ --- гильбертово пространство относительно скалярного произведения \begin{align*}
+  (f, g)_{L^{2}(X, \mu)} = \int\limits_{X} f \overline{g} \, d\mu  
+ .\end{align*} 
+\end{exmpl}
+\begin{proof}\
+ \begin{enumerate}[start=0]
+  \item Определение корректно: интеграл $\int_{X}  f \overline g \, d\mu$ определен, так как функция $fg$ суммируема по неравенству Гёльдера \eqref{equation:theorem:holder_inequality}:
+   \begin{align*}
+    \int\limits_{X} \left| fg \right| \, d\mu \leqslant  \left( \int\limits_{X} \left| f \right|^{2} \, d\mu  \right)^{\frac{1}{2}} \left( \int\limits_{X} \left| g \right|^{2}\,d\mu  \right)^{\frac{1}{2}} < \infty
+   ,\end{align*} ведь $f, g \in L^{2}(X,\mu)$.
+  \item Заметим, что норма в пространстве $L^{2}(X,\mu)$ в старом и новом смысле совпадают:
+   \begin{align*}
+    &(h,h) = \int_{X} h \overline{h} \, d\mu = \int_{X} \left| h \right|^{2} \, d\mu = \left\| h \right\|_2^{2}   \\
+    \implies & \sqrt {(h,h)}  = \left\| h \right\|_2
+   .\end{align*} Следовательно, $(h,h) \geqslant 0$ и $(h,h) = 0 \iff h = 0$.
+  \item $(h,g) = \overline{(g,h)}$ очевидно из определения.
+  \item $(\alpha_1 h_1 + \alpha_2 h_2, g) = \alpha_1(h_1, g) + \alpha_2(h_2, g)$ верно по линейности интеграла.
+  \item Полнота пространства $L^{2}(X,\mu)$ проверена в теореме \ref{theorem:lebesgue_space_is_banach}.
+ \end{enumerate}
+\end{proof}
+\begin{exmpl*}
+ $\ell^{2} = \left\{ \{a_{k}\}_{k=1}^{\infty} \Mid a_k \in \CC,\; \sum_{k=1}^{\infty} \left| a_k \right|^{2} < \infty \right\}$ --- гильбертово пространство, так как $\ell^{2} = L^{2}(\N, \nu)$, где $\nu$ --- считающая мера.
+\end{exmpl*}
+\begin{exmpl*}
+ Матрицы $M_n(\CC)$ --- гильбертово пространство со скалярным произведением \begin{align*}
+  (A, B) = \mathrm{Tr}(AB^{\ast})
+ \end{align*} для $A, B \in M_n(\CC)$. Оно называется \textit{пространством Гильберта-Шмидта}. Здесь $B^{\ast} = \overline{(B^{T})}$.
+\end{exmpl*}
+
+Имея под рукой мотивирующий пример гильбертова пространства, продолжим развивать теорию.
+
+\begin{df*}
+ Будем говорить, что вектора $h$ и $g$ \textit{ортогональны} и писать $h \perp g$, если $(h, g) = 0$.
+\end{df*}
+
+Следующее замечание, несмотря на свою тривиальность, бывает полезным.
+
+\begin{remrk}
+ \label{remark:vector_orthogonal_to_all_is_zero_vector}
+ Если $h \in H$ такое, что $h \perp g$ для любого $g \in H$, то $h = 0$. 
+\end{remrk}
+\begin{proof}
+ Взять $g = h$.
+\end{proof}
+
+\begin{df*}
+ Подмножество $C \subset H$ называется \textit{выпуклым}, если для любых $h_1, h_2 \in C$ и $\lambda_1, \lambda_2 \in [0,1]$ таких, что $\lambda_1 + \lambda_2 = 1$ выполнено $\lambda_1 h_1 + \lambda_2 h_2 \in C$.
+\end{df*}
+
+\begin{lm}[%
+ о выпуклых множествах в гильбертовом пространстве]
+ \label{lemma:convex_sets_in_hilbert_spaces}
+ Пусть $H$ --- гильбертово пространство, $C \subset H$ --- замкнутое выпуклое подмножество. Пусть точка $a \notin C$. Тогда существует точка $h \in C$ такая, что \begin{align*}
+  \left\| a - h \right\| = \mathrm{dist}(a, C)
+  ,\end{align*} где \begin{align*}
+  \mathrm{dist}(a,C) = \inf_{g \in C} \left\| a - g \right\|
+ .\end{align*}
+\end{lm}
+То есть лемма утверждает, что нижняя грань достигается.
+\begin{proof}
+ Можно считать $a = 0$ (подвинем множество $C$ и точку $a$, ничего не поменяется). Обозначим 
+ \begin{align*}
+  d = \mathrm{dist}(0, C) = \inf_{g \in C} \left\| g \right\|
+ .\end{align*} Пользуясь определением инфимума, найдём точки $h_n \in C$ такие, что $\left\| h_n \right\| \to d$ при $n \to \infty$. Далее оценим разность $\left\| h_n - h_m \right\|$ при $n,m \to \infty$:
+ \begin{align*}
+  &\left\| h_n-h_m \right\|^{2} + \left\| h_n + h_m \right\|^{2} =\\
+  = \;&\left\| h_n \right\|^{2} -2\Real(h_n,h_m) + \left\| h_m \right\|^{2} + \left\| h_n \right\|^{2} + 2\Real(h_n, h_m) + \left\| h_m \right\|^{2} = \\
+  = \;&2 \left\| h_n \right\|^{2} + 2 \left\| h_m \right\|^{2} \to 4d^{2}
+ .\end{align*} Поделим всё на $4$:
+ \begin{align}
+  \label{equation1:lemma:convex_sets_in_hilbert_spaces}
+  \left\| \frac{h_n - h_m}{2} \right\|^{2} + \left\| \frac{h_n + h_m}{2} \right\|^{2} \to d^{2}
+ .\end{align} Заметим, что по выпуклости $\frac{h_n + h_m}{2} \in C$, и поэтому $\left\| \frac{h_n + h_m}{2} \right\| \geqslant d$. Таким образом, чтобы стремление \eqref{equation1:lemma:convex_sets_in_hilbert_spaces} выполнялось, необходимо $\left\| h_n - h_m \right\|^{2} \to 0$ при $n,m \to \infty$. Тогда последовательность $h_n$ фундаментальна, и, в силу полноты $H$, сходится: существует предел
+ \begin{align*}
+  h = \lim_{n \to \infty} h_n \in H 
+ .\end{align*} По замкнутости множества $C$  имеем $h \in C$. Кроме того, по непрерывности нормы
+ \begin{align*}
+  \left\| h \right\| = \lim_{n \to \infty} \left\| h_n \right\| = d 
+ .\end{align*} 
+\end{proof}
+
+\begin{lm}[%
+ об ортогональном элементе]
+ \label{lemma:orthogonal_element_in_hilbert_space}
+ Пусть $H$ гильбертово пространство, $L \subset H$ --- замкнутое линейное подпространство, причём $L \neq H$. Тогда существует вектор $h \in H$, $h \neq 0$ такой, что $h \perp L$, то есть $h \perp l$ для всех $l \in L$.
+\end{lm}
+\begin{proof}
+ Возьмём любую точку $g \notin L$. Так как $L$ выпуклое и замкнутое, то по лемме \ref{lemma:convex_sets_in_hilbert_spaces} существует точка $f \in L$ такая, что
+ \begin{align*}
+  \left\| g - f \right\| = \mathrm{dist}(g,L) > 0
+ .\end{align*} Геометрически можно представлять точку $f$ как проекцию точки $g$ на подпространство $L$.
+
+ Рассмотрим вектор $h = \frac{g - f}{\left\| g - f \right\|}$ --- докажем что он как раз и будет ортогонален $L$. Его норма равна
+ \begin{align*}
+  \left\| h \right\| = \frac{\left\| g-f \right\|}{\left\| g-f \right\|} = 1
+ .\end{align*} Более того, верно $\mathrm{dist}(h,L) = 1$. $\mathrm{dist}(h,L) \leqslant 1$, так как $\mathrm{dist}(h,0) = \left\| h \right\| = 1$. Проверим $\mathrm{dist}(h,L) \geqslant 1$: для любого $l \in L$:
+ \begin{align*}
+  \mathrm{dist}(h, l) &= \left\| \frac{g - f}{\left\| g-f \right\|} - l \right\| = \frac{\left\| g - (f+\left\| g-f \right\|l) \right\|}{\left\| g-f \right\|} \geqslant \frac{\mathrm{dist}(g,L)}{\left\| g-f \right\|} = 1
+ ,\end{align*} так как $f + \left\| g-f \right\|l \in L$.
+
+ Нужно проверить $h \perp L$. Предположим, существует вектор $p \in L$ такой, что $(h, p) \neq 0$. Можно считать, что $(h, p) > 0$ (всегда можно домножить $p$ на $\tau \in \CC$, $\left| \tau \right| = 1$). Для малого числа $\eps > 0$ рассмотрим вектор $\eps p \in L$. Оценим расстояние от $h$ до него:
+ \begin{align*}
+  \left\| h - \eps p \right\|^{2} = \left\| h \right\|^{2} - 2\Real(h,p)\cdot \eps + \left\| p \right\|^{2} \eps^{2}
+ .\end{align*} При достаточно малом $\eps > 0$ мы получаем
+ \begin{align*}
+  \left\| h - \eps p \right\|^{2} < \left\| h \right\|^{2} = 1
+ .\end{align*} Но это невозможно, так как $\mathrm{dist}(h,L) = 1$.
+\end{proof}
+
+\begin{df*}
+ Линейное отображение $\varphi \colon\, H \to \CC$ называют \textit{линейным функционалом}. \textit{Ядром} $\varphi$ называется прообраз нуля:
+ \begin{align*}
+  \Ker \varphi = \varphi^{-1}(0)
+ .\end{align*} 
+\end{df*}
+
+\begin{lm}[%
+ о ядре функционала]
+ \label{lemma:kernel_of_functional}
+ Пусть $\varphi_1, \varphi_2 \colon\, H \to \CC$ --- линейные функционалы такие, что $\Ker \varphi_1 \subset \Ker \varphi_2$. Тогда существует $\lambda \in \CC$ такое, что \begin{align*}
+  \varphi_2 = \lambda \varphi_1
+ .\end{align*} 
+\end{lm}
+\begin{proof}
+ Если  $\Ker \varphi_2 = H$, то доказывать нечего ($\varphi_2 = 0$, можно взять $\lambda = 0$). Иначе существует вектор $h \in H$ такой, что $\varphi_2(h) \neq 0$. Подберём $\lambda \in \CC$ так, чтобы 
+ \begin{align*}
+  \varphi_2(h) = \lambda \varphi_1(h)
+ ,\end{align*} нужно взять $\lambda = \frac{\varphi_2(h)}{\varphi_1(h)}$  ($\varphi_1(h) \neq 0$ так как есть включение $\Ker \varphi_1 \subset \Ker \varphi_2$). Проверим, что $\lambda$ годится. Возьмём любой $g \in H$ и проверим, что
+ \begin{align*}
+  \varphi_2(g) = \lambda \varphi_1(g)
+ .\end{align*}  Так как на $h$ равенство уже выполнено, то по линейности оно равносильно равенству
+ \begin{align*}
+  \varphi_2(g + ch) = \lambda \varphi_1(g + ch)
+  \end{align*} для некоторого $c \in \CC$. Выберем $c$ так, чтобы $g + ch \in \Ker \varphi_1$ (тогда равенство превратится в $0 = 0$). Нужно удовлетворить \begin{align*}
+  g + ch \in \Ker \varphi_1 \iff \varphi_1(g) + c\varphi_1(h) = 0 \iff c = -\frac{\varphi_1(g)}{\varphi_1(h)}
+ .\end{align*} 
+\end{proof}
+
+Наконец, мы готовы перейти к главному результату этого параграфа --- теореме Рисса об общем виде линейного непрерывного функционала в гильбертовом пространстве.
+
+\begin{thm}[%
+ Рисса]
+ \label{theorem:riss}
+ Пусть $H$ --- гильбертово пространство и $\varphi \colon\, H \to \CC $ --- линейный непрерывный функционал. Тогда существует единственный вектор $g \in H$ такой, что $\varphi(h) = (h, g)$ для любого  $h \in H$.
+\end{thm}
+\begin{proof}
+ Любой функционал $\varphi_g \colon\, h \mapsto (h, g)$ линеен: \begin{align*}
+  \varphi_g(\alpha_1 h_1 + \alpha_2 h_2) = (\alpha_1 h_1 + \alpha_2 h_2, g) = \alpha_1 (h_1, g) + \alpha_2(h_2, g) = \alpha_1 \varphi_g(h_1) + \alpha_2 \varphi_g(h_2)
+  \end{align*} и непрерывен: \begin{align*}
+  \left| \varphi_g(h_1) - \varphi_g(h_2) \right| \leqslant \left| (h_1 - h_2, g) \right| \leqslant \left\| g \right\| \cdot \left\| h_1 - h_2 \right\|
+  .\end{align*} Кроме того, любые два таких функционала различны: если $g_1 \neq g_2$, то $\varphi_{g_1} \neq \varphi_{g_2}$. Предположим, что $\varphi_{g_1} = \varphi_{g_2}$. Тогда для любого $h \in H$ верно $(h, g_1) = (h, g_2)$ и \begin{align*}
+  (h, g_1 - g_2) = 0
+ .\end{align*} Следовательно, по замечанию \ref{remark:vector_orthogonal_to_all_is_zero_vector} $g_1 - g_2 = 0$.
+
+ Осталось самое сложное --- доказать существование. Пусть $\varphi \colon\, H \to \CC$ --- линейный непрерывный функционал. Если $\Ker \varphi = H$, то $\varphi = 0$, и можно взять $g = 0$. Иначе рассмотрим множество \begin{align*}
+  L = \Ker \varphi
+ .\end{align*} Покажем, что $L$ --- это замкнутое подпространство $H$.
+ \begin{itemize}
+  \item Ядро любого линейного функционала является подпространством: если $p_1, p_2 \in \Ker \varphi$ и $\alpha_1, \alpha_2 \in \CC$, то
+   \begin{align*}
+    \varphi(\alpha_1 p_1 + \alpha_2 p_2) = \alpha_1 \varphi(p_1) + \alpha_2 \varphi(p_2) = 0 \implies \alpha_1 p_1 + \alpha_2 p_2 \in \Ker \varphi
+   .\end{align*} 
+  \item $L$ замкнуто, так как множество нулей непрерывного отображения замкнуто: если  $p_n \to p$  и $\varphi(p_n) = 0$, то
+   \begin{align*}
+    \varphi(p) = \lim_{n \to \infty} \varphi(p_n)  = 0
+   .\end{align*}
+ \end{itemize}
+ Более того, $L \neq H$. Тогда по лемме \ref{lemma:orthogonal_element_in_hilbert_space} об ортогональном элементе существует вектор $g \in H$, $g \neq 0$ такой, что $g \perp L$.
+
+ Докажем, что $\varphi = \lambda \varphi_g$ для некоторого $\lambda \in \CC$. Заметим, что имеет место включение $\Ker \varphi \subset \Ker \varphi_g$:
+ \begin{align*}
+  f \in \Ker \varphi \iff f \in L \implies (f,g) = 0 \implies f \in \Ker \varphi_g
+ .\end{align*} По лемме \ref{lemma:kernel_of_functional} о ядре функционала имеем $\varphi_g = \lambda \varphi$ для некоторого $\lambda \in \CC$. Заметим, что $\lambda \neq 0$, так как $\varphi_g(g) = (g,g) > 0$ (ведь $g \neq 0$). Поэтому,
+ \begin{align*}
+  \varphi = \lambda^{-1} \varphi_g = \varphi_{\overline{\lambda^{-1}} \cdot g}
+ .\end{align*}
+\end{proof}
+
+Следующая лемма не была выделена явно на лекциях, она была частью доказательства теоремы Радона-Никодима. Тем не менее, я посчитал, что лучше её выделить в отдельную лемму.
+
+\begin{lm}[о вещественном функционале]
+ \label{lemma:real_functional_comes_from_real_function}
+ Пусть $L^{2}(X,\mu)$ --- гильбертово пространство Лебега, линейный непрерывный функционал $\varphi \colon\, L^{2}(X,\mu) \to \CC$ таков, что для любой вещественной функции $h \in L^{2}(X,\mu)$, $h \colon\, X \to \R$ значение функционала на ней вещественно: $\varphi(h) \in \R$. Тогда 
+ \begin{align*}
+  \varphi(h) = \int\limits_{X} h g \, d\mu 
+ ,\end{align*} где $g \in L^{2}(X,\mu)$, $g \colon\, X \to \R$ --- вещественная функция.
+\end{lm}
+Иными словами, лемма говорит, что вещественный функционал порождается вещественной функцией.
+\begin{proof}
+ Пусть $g \in L^{2}(X,\mu)$ --- функция из теоремы \ref{theorem:riss} Рисса, порождающая функционал $\varphi$. Пусть $h \in L^{2}(X,\mu)$, $h \colon\, X \to \R  $  --- вещественная функция. Тогда по определению \ref{definition:complex_lebesgue_integral} комплексного интеграла Лебега:
+ \begin{align*}
+  \varphi(h) = \int\limits_{X} h \overline g \, d\mu = \int\limits_{X}  \Real (h \overline g) \, d\mu + i \int\limits_{X} \Imaginary(h \overline g) \, d\mu
+ .\end{align*} Так как в левой части вещественное число, то мнимая часть равна нулю:
+ \begin{align*}
+  \varphi(h) = \int\limits_{X} \Real (h\overline g)  \, d\mu = \int\limits_{X} h \Real g \, d\mu 
+ .\end{align*} Произвольная функция $f \in L^{2}(X,\mu)$ раскладывается на вещественную и мнимую часть: $f = h_1 + i h_2$, где $h_1, h_2 \in L^{2}(X,\mu)$, $h_1,h_2 \colon\, X \to \R$. По линейности функционала:
+ \begin{align*}
+  \varphi(f) &= \varphi(h_1 + i h_2) = \varphi(h_1) + i \varphi(h_2) = \int\limits_{X} h_1 \Real g \, d\mu + i \int\limits_{X} h_2 \Real g \, d\mu   = \\
+  &= \int\limits_{X} (h_1 + i h_2) \Real g \, d\mu = \int\limits_{X} f \Real g \, d\mu 
+ .\end{align*} Таким образом, вещественная функция $\Real g \in L^{2}(X,\mu)$, $\Real g \colon\, X \to \R$ порождает функционал $\varphi$.
+\end{proof}
+
+\section{Доказательство фон Неймана теоремы Радона-Никодима}
+
+Зафиксируем в этом параграфе измеримое пространство $(X, \A)$. Для удобства вместо $L^{p}(X,\mu)$ будем писать $L^{p}(\mu)$.
+
+Вспомним определение \ref{definition:measure_continious_relative_to_other_measure} отношения $\nu \prec \prec \mu$: мера $\nu$ называется \textit{непрерывной} относительно меры $\mu$, если $\mu(E) = 0$ влечет $\nu(E) = 0$. Вспомним также основной пример таких мер (утверждение \ref{claim:integral_is_measure}): если функция $f \colon\, X \to [0,\infty]$ измерима, то
+\begin{align*}
+ \nu(E) = \int\limits_{E} f \,d\mu 
+\end{align*} --- мера, причём $\nu \prec \prec \mu$. В этом параграфе мы докажем теорему Радона-Никодима, из которой последует, что все непрерывные относительно $\mu$ меры имеют именно такой вид.
+
+На самом деле теорема будет несколько более общей --- нам ещё потребуется определение сингулярных мер.
+
+\begin{df}
+ Будем говорить, что мера $\nu$ \textit{cингулярна} относительно меры $\mu$ и писать $\nu \perp \mu$, если существует измеримое множество $S \in \A$ такое, что $\mu(S) = 0$ и  $\nu(X \setminus S) = 0$.
+\end{df}
+\begin{remrk*}
+ $\nu \perp \mu \iff \mu \perp \nu$.
+\end{remrk*}
+
+\begin{exmpl*}[сингулярные меры]
+ Рассмотрим измеримое пространство $(\R, \B_1)$. Рассмотрим две меры: $\delta_{\left\{ 0 \right\}}$ --- нагрузка в точке $0$ и $\lao$ --- мера Лебега. Тогда $\delta_{\left\{ 0 \right\}} \perp \lao$: для одноточечного множества $S = \left\{ 0 \right\}$:
+ \begin{align*}
+  \lao(\left\{ 0 \right\}) = 0, & &\delta_{\left\{ 0 \right\}}(\R \setminus \left\{ 0 \right\}) = 0
+ .\end{align*} 
+\end{exmpl*}
+\begin{exmpl*}
+ В задаче 7 листочка 1 была построена мера $\mu \colon\, \B([0,1]) \to [0,\infty]$ такая, что
+ \begin{align*}
+  \mu( \left[a, b\right) ) = l(b) - l(a)
+ ,\end{align*} где $l \colon\, [0,1] \to [0,1]$  --- канторова лестница. Тогда $\mu \perp \lao $: если $C \subset [0,1]$  --- стандартное канторово множество, то
+ \begin{align*}
+  \lao(C) = 0, & &\mu([0,1] \setminus C) = \mu \left( \bigsqcup_{k=1}^{\infty} I_k \right) = 0
+ ,\end{align*} где $I_k$ --- выкинутые интервалы из отрезка $[0,1]$, на которых канторова лестница постоянна.
+\end{exmpl*}
+
+Теперь мы готовы доказать самую красивую теорему этого курса.
+
+\begin{thm}[%
+ Радона-Никодима]
+ \label{theorem:radon_nikodim}
+ Пусть $\mu, \nu$ --- конечные меры на  измеримом пространстве $(X, \A)$. Тогда существует единственная функция $f \in L^{1}(\mu)$, $f \geqslant 0$ и единственная мера $\nu_S \perp \mu$ на $(X,\A)$ такие, что
+ \begin{align*}
+  \nu(E) = \int\limits_{E} f \, d\mu  + \nu_S(E) 
+ \end{align*} для всякого измеримого множества $E \in \A$. В частности, если $\nu \prec \prec \mu$, то
+ \begin{align*}
+  \nu(E) = \int\limits_{E} f \, d\mu 
+ .\end{align*} 
+\end{thm}
+Доказательство этой теоремы пропитано духом функционального анализа. Ключевая идея в нём --- свести всё к функционалам (так, многие доказательства начинаются со слов <<рассмотрим функционал>>). Как именно это делать зачастую совсем не очевидно.
+\begin{proof}[\normalfont\textsc{Доказательство (фон Нейман)}]
+ Начнём доказательство с единственности (на лекциях она была оставлена в качестве упражнения). Предположим, что существуют две измеримые неотрицательные функции $f_1, f_2 \in L^{1}(\mu)$ и две меры $\nu_{S_1}, \nu_{S_2}$, сингулярные $\mu$, такие, что для любого $E \in \A$
+ \begin{align}
+  \label{equation:theorem:radon_nikodim:two_certificates}
+  \nu(E) = \int\limits_{E} f_1 \, d\mu + \nu_{S_1}(E), & & \nu(E) = \int\limits_{E} f_2 \, d\mu + \nu_{S_2}(E)
+ .\end{align} По сингулярности существуют измеримые множества $S_1, S_2$ такие, что
+ \begin{align*}
+  \mu(S_1) = \mu(S_2) = 0, & &\nu_{S_1}(X \setminus S_1) = \nu_{S_2}(X \setminus S_2) = 0
+ .\end{align*} Тогда множество $S = S_1 \cup S_2$ обеспечивает сингулярность обоих мер:
+ \begin{align*}
+  \mu(S) = 0, & &\nu_{S_1}(X \setminus S) = \nu_{S_2}(X \setminus S) = 0
+ .\end{align*} Теперь для любого множества $E \in \A$, пользуясь равенствами \eqref{equation:theorem:radon_nikodim:two_certificates}, можно написать:
+ \begin{align}
+  \nonumber
+  \nu(E \setminus S) &= \int\limits_{E \setminus S} f_1 \, d\mu  = \int\limits_{E \setminus S}   f_2 \, d\mu = \\
+  \label{equation:theorem:radon_nikodim:two_f_equality}
+  &= \int\limits_{E} f_1 \, d\mu = \int\limits_{E} f_2 \, d\mu, \\
+  \nonumber
+  \nu(E \cap S) &= \nu_{S_1}(E \cap S) = \nu_{S_2}(E \cap S) = \\
+  \label{equation:theorem:radon_nikodim:two_nu_S_equality}
+  &= \nu_{S_1}(E) = \nu_{S_2}(E)
+ .\end{align} Из \eqref{equation:theorem:radon_nikodim:two_nu_S_equality} непосредственно следует $\nu_{S_1} = \nu_{S_2}$. Из \eqref{equation:theorem:radon_nikodim:two_f_equality} следует $f_1 = f_2$ $\mu$-почти всюду: нужно рассмотреть разность $f_1 - f_2$ и понять, что множества $\left\{ x \mid f_1 - f_2 > 0 \right\}$, $\left\{ x \mid f_1 - f_2 < 0 \right\}$ имеет нулевую меру. Единственность доказана.
+
+ Теперь перейдём к сложной части --- существованию. Здесь начинается функциональный анализ. Рассмотрим новую меру $\omega = \mu + \nu$. Рассмотрим функционал $\varphi \colon\, L^{2}(\omega) \to \CC$ на гильбертовом пространстве $L^{2}(\omega)$, заданный следующим образом:
+ \begin{align*}
+  \varphi(g) = \int\limits_{X} g \, d\nu 
+ ,\end{align*} где $g \in L^{2}(\omega)$. Проверим, что $\varphi$ --- это корректно заданный линейный непрерывный функционал.
+ \begin{itemize}
+  \item Корректность. Пусть $g \in L^{2}(\omega)$. Достаточно показать суммируемость функции $g$ относительно меры $\nu$. Проверим её с помощью неравенства \ref{equation:theorem:holder_inequality} Гёльдера:
+   \begin{align}
+    \nonumber
+    \int\limits_{X} \left| g \right| \, d\nu   &= \int\limits_{X} \left| g \right| \cdot 1 \, d\nu \leqslant  \left( \int\limits_{X} \left| g \right|^{2}\, d\nu  \right)^{\frac{1}{2}} \left( \int\limits_{X} 1 \, d\nu  \right)^{\frac{1}{2}} = \\
+    \label{equation:theorem:radon_nikodim:phi_functional_estimation}
+    &= \left\| g \right\|_{L^{2}(\nu)} \nu(X)^{\frac{1}{2}} \leqslant \left\| g \right\|_{L^{2}(\omega)} \nu(X)^{\frac{1}{2}} < \infty
+   .\end{align} Здесь мы также воспользовались свойством $\int_{X} h \, d\nu \leqslant \int_{X}  h \, d\omega$ для $h \geqslant 0$, которое верно, так как $\int_{X}  h \, d\omega = \int_{X}  h \, d\mu + \int_{X}  h \, d\nu$. Последнее неравенство легко проверить на простых неотрицательных $h$, а затем продолжить на измеримые неотрицательные по теореме \ref{theorem:levi} Леви.
+  \item Линейность очевидна.
+  \item Непрерывность также следует из цепочки неравенств \eqref{equation:theorem:radon_nikodim:phi_functional_estimation}:
+   \begin{align*}
+    \left| \varphi(g_1) - \varphi(g_2) \right| &= \left| \int\limits_{X} (g_1-g_2)\, d\nu  \right| \leqslant \int\limits_{X} \left| g_1-g_2 \right| d\nu \leqslant \nu(X)^{\frac{1}{2}} \left\| g_1-g_2 \right\|_{L^{2}(\omega)}
+   .\end{align*} 
+ \end{itemize}
+
+ Тогда по теореме \ref{theorem:riss} Рисса существует единственная функция $h \in L^{2}(\omega)$ такая, что 
+ \begin{align*}
+  \varphi(g) = \int\limits_{X} g\overline{h} \, d\omega  
+ .\end{align*} Заметим, что для вещественной функции $g \in L^{2}(\omega)$, $g \colon\, X \to \R$ значение функционала $\varphi(g)$ вещественно. По лемме \ref{lemma:real_functional_comes_from_real_function} о вещественном функционале функция $h$ вещественна: $h \colon\, X \to \R$.
+
+ Пользуясь фактом $\int_{X}  f \, d\omega = \int_{X}  f \, d\mu + \int_{X}  f \, d\nu$, мы получаем равенство
+ \begin{align}
+  \nonumber
+  &\int\limits_{X} g \, d\nu = \int\limits_{X} gh \, d\mu +  \int\limits_{X} gh \,d\nu \\
+  \label{equation:theorem:radon_nikodim_equality_two_g_h_integrals}
+  \implies &\int\limits_{X} g(1-h)  \, d\nu = \int\limits_{X} gh \, d\mu 
+ ,\end{align} которое верно для любой функции $g \in L^{2}(\omega)$ и некоторой специально обученной вещественной функции $h \in L^{2}(\omega)$, $h \colon\, X \to \R$. В частности, подставляя функцию $g = \chi_E$ для измеримого множества $E \in \A$, получаем
+ \begin{align}
+  \label{equation:theorem:radon_nikodim:equality_two_h_integrals}
+  \int\limits_{E} (1-h)  \, d\nu = \int\limits_{E}  h \, d\mu 
+ .\end{align} Отметим, что такая подстановка легальна, потому что $\chi_E \in L^{2}(\omega)$ для любого $E \in \A$ (ведь обе меры $\mu$ и $\nu$ конечные).
+
+ Далее разобьём пространство $X$ на четыре следующих множества:
+ \begin{align*}
+  N &= \left\{ x \in X \mid h(x) < 0 \right\}, \\
+  G &= \left\{ x \in X \mid h(x) \in [0,1) \right\}, \\
+  S &= \left\{ x \in X \mid h(x) = 1 \right\}, \\
+  B &= \left\{ x \in X \mid h(x) > 1 \right\}
+ .\end{align*} По построению эти множества измеримы. Исследуем значение мер $\mu$ и $\nu$ на этих множествах.
+ \begin{itemize}
+  \item Множество $N$. Подставим его в равенство \eqref{equation:theorem:radon_nikodim:equality_two_h_integrals}:
+   \begin{align*}
+    0 \leqslant \int\limits_{N} (1-h)  \, d\nu = \int\limits_{N} h \,d\mu \leqslant 0 
+   .\end{align*} Тогда $\nu(N) = 0$, так как $\int_{N} (1-h)\,d\nu = 0 $ и $1-h > 0$ на $N$, а также $\mu(N) = 0$, так как $\int_{N} h \, d\mu = 0 $ и $h < 0$ на $N$.
+  \item Множество $B$. Аналогично, подставим его в \eqref{equation:theorem:radon_nikodim:equality_two_h_integrals}:
+   \begin{align*}
+    0 \geqslant \int\limits_{B} (1 - h) \, d\nu = \int\limits_{B} h \, d\mu \geqslant 0  
+   .\end{align*} Тогда $\nu(B) = 0$, так как $\int_{B} (1-h) d\nu = 0 $ и $1-h < 0$ на $B$, а также $\mu(B) = 0$, так как $\int_{B} h \, d\mu = 0 $ и $h > 0$ на $B$.
+  \item Множество $S$. Подставим его в \eqref{equation:theorem:radon_nikodim:equality_two_h_integrals}:
+   \begin{align*}
+    0 = \int\limits_{S}  (1-h)  \, d\nu = \int\limits_{S} h \, d\mu = \int\limits_{S} 1 \, d\mu = \mu(S)  
+   .\end{align*} При этом про $\nu(S)$ сказать ничего нельзя.
+ \end{itemize}
+
+ Итак, мы получили равенство $\mu = \nu = 0$ на $N \sqcup B$, а также $\mu = 0$ на $S$. Осталось множество $G$. Приблизим его снизу множествами $G_n$:
+ \begin{align*}
+  G = \bigcup_{n=1}^{\infty} G_n, & &G_n = \left\{ x \in X \mid 0 \leqslant h(x) \leqslant 1 - 1 / n \right\}, & &G_1 \subset G_2 \subset \ldots \subset G_n \subset \ldots
+ \end{align*} Возьмём произвольное множество $E \in \A$ и рассмотрим функцию 
+ \begin{align*}
+  g = \frac{\chi_{E \cap G_n}}{1 - h}
+ .\end{align*} Заметим, что $g \in L^{2}(\omega)$, потому что $\left| g(x) \right| \leqslant n$ при всех $x$, в то время, как мера $\omega$ конечная. Поэтому, можно подставить $g$ в равенство \eqref{equation:theorem:radon_nikodim_equality_two_g_h_integrals}:
+ \begin{align*}
+  \nu(E \cap G_n) = \int\limits_{E \cap G_n} 1 \, d\nu = \int\limits_{E \cap G_n}   \frac{h}{1-h}\,d\mu = \int\limits_{E \cap G_n} f \, d\mu 
+ ,\end{align*} где $f = \frac{h}{1-h} \cdot \chi_{G}$ --- неотрицательная измеримая функция $f \colon\, X \to [0, +\infty)$. Так как есть вложенность $E \cap G_n \subset E \cap G_{n+1} $, то по непрерывности меры сверху (утверждение \ref{claim:upward_continuity_of_measure}) для меры $\nu$ и меры $A \mapsto \int_{A} f \,d\mu  $ можно совершить предельный переход при $n \to \infty$:
+ \begin{align*}
+  \nu(E \cap G) = \int\limits_{E \cap G}   f \, d\mu
+ .\end{align*} При этом так как $\mu = 0$ на множествах $N$, $B$ и $S$, то
+ \begin{align*}
+  \nu(E \cap G) = \int\limits_{E} f \, d\mu 
+ .\end{align*} В свою очередь, так как $\nu = 0$ на множествах $N$ и $B$, можно записать
+ \begin{align*}
+  \nu(E) &= \nu(E \cap G) + \nu(E \cap S) = \\
+  &= \int\limits_{E} f \, d\mu + \nu_S(E)
+ ,\end{align*} где $\nu_S(E) = \nu(E \cap S)$. Понятно, что $\nu$ --- мера (ведь $\nu_S(E) = \int_{E} \chi_S \, d\nu  $), поэтому осталось проверить только сингулярность $\nu_S \perp \mu$. Действительно, $\mu(S) = 0$, в то время как $\nu_S(X \setminus S) = 0$. Наконец, $f \in L^{1}(\mu)$, так как $\int_{X} f \, d\mu = \nu(G) < \infty$.
+
+ Также поясним частный случай $\nu \prec \prec \mu$. В этом случае, так как $\mu(S) = 0$, то $\nu(S) = 0$, и, следовательно, $\nu_S$ --- тождественный нуль. Поэтому верно $\nu(E) = \int_{E} f \,d\mu  $.
+\end{proof}
+\begin{remrk}
+ \label{remark:sigma_finite:radon_nikodim}
+ В теореме \ref{theorem:radon_nikodim} Радона-Никодима условие конечности мер $\mu$, $\nu$ можно ослабить до $\sigma$-конечности. Но при этом не будет гарантии, что функция $f \in L^{1}(\mu)$.
+\end{remrk}
+\begin{proof}
+ Действительно, пусть есть измеримое разбиение
+ \begin{align*}
+  X = \bigsqcup_{k=1}^{\infty} X_k
+ ,\end{align*} причём меры $\mu(X_k), \nu(X_k) < \infty$ для всякого $k \geqslant 1$. Тогда можно на каждом индуцированном измеримом пространстве $X_k$ применить теорему в изначальной формулировке: существуют единственные функция $f_k \in L^{1}(X_k, \mu)$, $f_k \geqslant 0$ и мера $\nu_{Sk}$ такие, что
+ \begin{align*}
+  \nu(E) = \int\limits_{E} f_k \, d\mu + \nu_{Sk} (E)
+ \end{align*} для измеримого $E \subset X_k$ . Доопределим нулями $f_k$  и $\nu_{Sk}$  до пространства $X$, возьмём функцию
+ \begin{align*}
+  f = \sum_{k=1}^{\infty} f_k
+ \end{align*} и меру \begin{align*}
+ \nu_S = \sum_{k=1}^{\infty} \nu_{Sk}
+ .\end{align*} Тогда для любого измеримого $E \subset X$:
+ \begin{align*}
+  \nu(E) &= \sum_{k=1}^{\infty} \nu(E \cap X_k) = \sum_{k=1}^{\infty} \left( \int\limits_{E \cap X_k} f_k \, d\mu + \nu_{Sk}(E \cap X_k)  \right) = \\
+  &= \sum_{k=1}^{\infty} \int\limits_{E} f_k \, d\mu + \sum_{k=1}^{\infty} \nu_{Sk}(E) = \int\limits_{E} f \, d\mu + \nu_S(E) 
+ .\end{align*} Функция $f \geqslant 0$. Осталось проверить сингулярность $\nu_S$. Существуют измеримые множества $S_k \subset X_k$  такие, что $\nu_{Sk}(S_k) = 0$ и  $\mu(X_k \setminus S_k) = 0$. Возьмём $S = \bigsqcup_{k=1}^{\infty} S_k$, тогда
+ \begin{align*}
+  \nu_S(S) = \sum_{k=1}^{\infty} \nu_{Sk}(S_k) = 0, & &\mu(X \setminus S) = \sum_{k=1}^{\infty} \mu(X_k \setminus S_k) = 0
+ .\end{align*} 
+\end{proof}
+
+\end{document}
