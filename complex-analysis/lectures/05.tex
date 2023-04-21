@@ -52,15 +52,15 @@
  Осталось доказать единственность. Пусть $ e^{g_1} = e^{g_2} = f $ в $ \Omega $. Тогда
  \begin{align*}
   e^{g_1 - g_2} = 1
-\end{align*} в $ \Omega $. Тогда $ (g_1-g_2)(z) = 2\pi i k (z) $, по \eqref{remark:expeq1_implies_poweq2pk}, где $ k(z) \in \Z$. Так как функция $k$ непрерывна, то $ k $ --- это константа в $ \Omega $.
+\end{align*} в $ \Omega $. Тогда $ (g_1-g_2)(z) = 2\pi i k (z) $, по замечанию \eqref{remark:expeq1_implies_poweq2pk}, где $ k(z) \in \Z$. Так как функция $k$ непрерывна, то $ k $ --- это константа в $ \Omega $.
 
 \end{proof}
 \begin{remrk}
   \label{remark:expeq1_implies_poweq2pk}
- $ e^{\lambda} = 1 $, $ \lambda = a + ib $, тогда
- \begin{align*}
-  \left|e^{a} \cdot e^{ib} \right| = 1
- \end{align*} $ e^{a} = 1 $, $ a \in \R \implies a = 0 $, $ e^{ib} = 1 \implies \cos b + i \sin b = 1$. Значит, $ \sin b = 0 \implies \cos b = 1 \implies b = 2\pi k $.
+	$e^{\lambda} = 1 \implies \lambda = 2 \pi i k, k \in \Z$ 
+	\begin{proof}
+		$\lambda = a + ib \ (a, b \in \R), \ |e^a \cdot e^{ib}| = 1 \implies e^a = 1 \implies a = 0, e^{ib} = 1 \implies \cos b + i \sin b = 1 $. Значит $\sin b = 0, \ \cos b = 1 \implies b = 2 \pi k$ 
+	\end{proof}
 \end{remrk}
 
 \begin{df}
@@ -78,8 +78,8 @@
  f = e^{\log f} = e^{\Real \log f} \cdot e^{i \Imaginary (\log f)} = \left| f \right| e^{i \arg f}.
  \end{align*} Если $ A_1, A_2 $ --- непрерывные ветви аргумента, то
  \begin{align*}
-  e^{i(A_1 - A_2)} = \frac{\left| f \right|e^{i(A_1)}}{\left| f \right|e^{iA_2}} = \frac{\left| f \right|}{\left| f \right|} = 1.
-\end{align*} Значит, $ A_1 - A_2 = 2\pi k(z) $ \eqref{remark:expeq1_implies_poweq2pk}, где $ k(z) \in \Z $. Так как $ k $ непрерывна, то $ k \equiv k_0 $, $ k_0 \in \Z $.
+ e^{i(A_1 - A_2)} = \frac{\left| f \right|e^{iA_1}}{\left| f \right|e^{iA_2}} = \frac{f}{f} = 1.
+\end{align*} Значит, $ A_1 - A_2 = 2\pi k(z) $ (По замечанию \eqref{remark:expeq1_implies_poweq2pk}), где $ k(z) \in \Z $. Так как $ k $ непрерывна, то $ k = k_0 $, $ k_0 \in \Z $.
 \end{proof}
 \begin{remrk}
  В ходе доказательства мы проверили, что $ e^{\Real f} = \left| f \right| = e^{\ln \left| f \right|} $, где $ \ln \left| f \right| $ --- вещественный логарифм в старом смысле. Иными словами,
@@ -104,7 +104,7 @@
 
 \begin{align*}
  i^{i} = e^{i \log i} = e^{i \cdot \left( \Real \log i + \Imaginary \log i \right)} = e^{i \cdot \left( \ln \left| i \right| + i \arg i \right)} = e^{-\arg i} = e^{-\pi / 2}.
-\end{align*} Почему же $ \arg i = \pi / 2 $?  $ i = e^{i \frac{\pi}{2}} $ , и в области $ \CC \setminus \left(-\infty, 0\right]   $  полярные координаты задают непрерывную ветвь аргумента и $\varphi \in [-\pi, \pi], \ r > 0$ . 
+\end{align*} Почему же $ \arg i = \pi / 2 $?  $ i = e^{i \frac{\pi}{2}} $ , и в области $ \CC \setminus \left(-\infty, 0\right]   $  полярные координаты задают непрерывную ветвь аргумента: $\varphi \in [-\pi, \pi], \ r > 0$ . 
 \end{exmpl}
 
 \newpage
@@ -129,9 +129,9 @@
 Из теоремы \eqref{theorem:analytic_implies_open} следует теорема \eqref{theorem:maximum_principle} .
 \end{prop}
 \begin{proof}[\normalfont\textsc{Доказательство}]
- Так как $ f(B(z_0, \eps)) $ содержит точку $ f(z_0) $ в предположении теоремы 2, но не содержит точки $ w $ такие, что $ \left| w \right| > \left| f(z_0) \right| $. Значит $ f $ не открытое, и значит $ f \equiv \mathrm{const} $.
+ Так как $ f(B(z_0, \eps)) $ содержит точку $ f(z_0) $ в предположении теоремы \eqref{theorem:maximum_principle}, но не содержит точки $ w $ такие, что $ \left| w \right| > \left| f(z_0) \right| $. Значит $ f $ не открытое, и значит $ f \equiv \mathrm{const} $.
 \end{proof}
-\begin{lm}
+\begin{lm} (в условиях теоремы \eqref{theorem:analytic_implies_open})
  Рассмотрим $ F(x, y) = (u(x,y), v(x,y)) $, где $ u(x,y) = \Real f(x + iy) $, $ v(x,y) = \Imaginary f(x +iy) $. Тогда
  \begin{align*}
   \det J_F (x_0, y_0) = \left| f'(z_0) \right|^{2}.
@@ -153,12 +153,14 @@
  \end{align*} снова по условию Коши-Римана.
 \end{proof}
 \begin{crly}
+	\label{crly:derivative_not_0_implies_open}
  Если $ z_0 $: $ f'(z_0) \neq 0 $, то в малой окрестности $ z_0 $ отображение $ f $ открыто.
 \end{crly}
 \begin{proof}[\normalfont\textsc{Доказательство}]
- Если $ f'(z_0) \neq 0 $, то по непрерывности $ \left| f'(z) \right|^{2} \neq 0 $ для $ z \in B(z_0, \eps) $, и значит $ \det J_F \neq 0 $ в шаре, и по теореме об открытости отображения с ненулевым якобианом. $ f $ открыто как отображение из $ B(z_0, \eps) \subset \R^{2} $ в $ \R^{2} $.
+ Если $ f'(z_0) \neq 0 $, то по непрерывности $ \left| f'(z) \right|^{2} \neq 0 $ для $ z \in B(z_0, \eps) $, и значит $ \det J_F \neq 0 $ в шаре, и по теореме об открытости отображения с ненулевым якобианом: $ f $ открыто как отображение из $ B(z_0, \eps) \subset \R^{2} $ в $ \R^{2} $.
 \end{proof}
 \begin{lm}
+	\label{lemma:z_to_n_is_open}
  $ z^{n} $ --- открытое отображение в $ \CC $ для любого $ n \in \N $.
 \end{lm}
 \begin{proof}[\normalfont\textsc{Доказательство}]
@@ -167,12 +169,12 @@
   f(B(0,r)) = B(0, r^{n})
  \end{align*} --- открытое множество. Значит, $ f $ открыто.
 \end{proof}
-\begin{proof}[\normalfont\textsc{Доказательство \eqref{theorem:analytic_implies_open}}]
+\begin{proof}[\normalfont\textsc{Доказательство теоремы \eqref{theorem:analytic_implies_open}}]
   Подберем так, чтобы $ f = h_1 \circ h_2 \circ h_3 $, где $ h_1 $, $ h_2 $, $ h_3 $ --- открытые в окрестности $ z_0 \in \Omega $.
  \begin{align}
   \label{equation:proof:theorem_open_representation}
   f(z) = f(z_0) + \left((z - z_0) \cdot g(z) \right)^{n},
- \end{align} где $ g $ --- аналитическая в окр. $ z_0 $ и $ n \in \N $, $ g(z_0) \neq 0 $. Докажем \eqref{equation:proof:theorem_open_representation}. По лемме о кратности нуля
+\end{align} где $ g $ --- аналитическая в окр. $ z_0 $ и $ n \in \N $, $ g(z_0) \neq 0 $. Докажем \eqref{equation:proof:theorem_open_representation}. По лемме \eqref{lemma:zero_multiplicity} о кратности нуля
  \begin{align*}
   Q(z) = f(z) - f(z_0) = (z - z_0)^{n} \cdot P(z),
  \end{align*} где $ P $ --- аналитическая. Теперь
@@ -190,10 +192,10 @@
   &h_3 \colon\, z \mapsto (z-z_0)(g(z)) \\
   &h_2 \colon z \mapsto z^{n} \\
   &h_1 \colon z \mapsto f(z_0) + z
- \end{align*} $ h_1 $ и $ h_2 $ открытые (по лемме ). Почему $ h_3 $ открытое?
+ \end{align*} $ h_1 $ очевидное открытое, $ h_2 $ открытое (по лемме \eqref{lemma:z_to_n_is_open}). Почему $ h_3 $ открытое?
  \begin{align*}
-  h_3'(z_0) = g(z_0) + (z_0 - z_0) g'(z_0) = g(z_0) \neq 0
- \end{align*} По другой лемме $ h_3 $ открыто в малой окрестности $ z_0 \in \Omega $.
+	 h_3'(z_0) = \left. g + (z - z_0) g' \right|_{\substack{z = z_0}} = g(z_0) \neq 0
+\end{align*} Тогда по следствию \eqref{crly:derivative_not_0_implies_open}  $ h_3 $ открыто в малой окрестности $ z_0 \in \Omega $.
 
 \end{proof}
 
